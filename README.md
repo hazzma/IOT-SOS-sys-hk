@@ -1,35 +1,33 @@
-⚡ ESP32-C3 SOS Blinker + WiFi + OTA
+# ⚡ ESP32-C3 SOS Blinker + WiFi + OTA
 
+![PlatformIO](https://img.shields.io/badge/PlatformIO-ESP32-orange)
+![Framework](https://img.shields.io/badge/Framework-Arduino-blue)
+![OTA](https://img.shields.io/badge/OTA-ArduinoOTA-green)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
+---
 
+## 📌 Project Overview
 
+Embedded system built on **ESP32-C3** that implements:
 
-
-
-
-📌 Project Overview
-
-Embedded system built on ESP32-C3 that implements:
-
-🔴 SOS Morse LED Blinking (non-blocking)
-
-📟 Serial Monitor output ("SOS")
-
-📶 WiFi Auto-Connect with Retry
-
-🔄 OTA Firmware Update (ArduinoOTA)
+* 🔴 SOS Morse LED Blinking (non-blocking)
+* 📟 Serial Monitor output ("SOS")
+* 📶 WiFi Auto-Connect with Retry
+* 🔄 OTA Firmware Update (ArduinoOTA)
 
 This project demonstrates:
 
-Modular firmware design
+* Modular firmware design
+* State-machine based LED control
+* Asynchronous WiFi handling
+* Concurrent OTA service
 
-State-machine based LED control
+---
 
-Asynchronous WiFi handling
+## 🏗️ System Architecture
 
-Concurrent OTA service
-
-🏗️ System Architecture
+```
                 ┌──────────────────────┐
                 │        User          │
                 │  (Serial Monitor)    │
@@ -62,20 +60,33 @@ Concurrent OTA service
                            │
                            ▼
                        OTA Client (PC)
-✨ Features
-Feature	Description
-🔴 SOS Engine	Morse ... --- ... blinking
-⏱ Non-Blocking	Uses millis() instead of delay()
-📶 WiFi Manager	Auto-connect + retry logic
-🔄 OTA Update	Wireless firmware flashing
-📟 Serial Log	Status monitoring at 115200 baud
-📖 Documentation
+```
+
+---
+
+## ✨ Features
+
+| Feature         | Description                          |
+| --------------- | ------------------------------------ |
+| 🔴 SOS Engine   | Morse `... --- ...` blinking         |
+| ⏱ Non-Blocking  | Uses `millis()` instead of `delay()` |
+| 📶 WiFi Manager | Auto-connect + retry logic           |
+| 🔄 OTA Update   | Wireless firmware flashing           |
+| 📟 Serial Log   | Status monitoring at 115200 baud     |
+
+---
+
+## 📖 Documentation
 
 Full system specification available here:
 
-➡ 📄 Functional Specification Document (FSD)
+➡ **[📄 Functional Specification Document (FSD)](docs/FSD.md)**
 
-🗂️ Project Structure
+---
+
+## 🗂️ Project Structure
+
+```
 esp32c3-sos/
 │
 ├── platformio.ini
@@ -88,58 +99,91 @@ esp32c3-sos/
 │
 └── docs/
     └── FSD.md
-🔧 Hardware
-Supported Board
+```
 
-ESP32-C3 DevKit (PlatformIO compatible)
+---
 
-GPIO
-Function	GPIO
-Built-in LED	LED_BUILTIN
-🚀 Getting Started
-1️⃣ Install PlatformIO
+## 🔧 Hardware
+
+### Supported Board
+
+* ESP32-C3 DevKit (PlatformIO compatible)
+
+### GPIO
+
+| Function     | GPIO        |
+| ------------ | ----------- |
+| Built-in LED | LED_BUILTIN |
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Install PlatformIO
 
 Install VSCode + PlatformIO extension.
 
-2️⃣ Build
-pio run
-3️⃣ Flash via USB
-pio run --target upload
-4️⃣ Open Serial Monitor
-pio device monitor
+---
 
-Baud rate: 115200
+### 2️⃣ Build
+
+```
+pio run
+```
+
+---
+
+### 3️⃣ Flash via USB
+
+```
+pio run --target upload
+```
+
+---
+
+### 4️⃣ Open Serial Monitor
+
+```
+pio device monitor
+```
+
+Baud rate: **115200**
 
 You should see:
 
+```
 System Booting...
 WiFi Connecting...
 SOS
-🔄 OTA Update
+```
+
+---
+
+## 🔄 OTA Update
 
 After WiFi connects:
 
-Make code changes
-
-Select network port in PlatformIO
-
-Upload
+1. Make code changes
+2. Select network port in PlatformIO
+3. Upload
 
 OTA progress will appear in Serial Monitor.
 
-🧠 Engineering Concepts Demonstrated
+---
 
-Finite state machine for Morse control
+## 🧠 Engineering Concepts Demonstrated
 
-Non-blocking embedded timing
+* Finite state machine for Morse control
+* Non-blocking embedded timing
+* Parallel subsystem execution in `loop()`
+* Network reconnection strategy
+* Safe OTA handling
 
-Parallel subsystem execution in loop()
+---
 
-Network reconnection strategy
+## 📊 Runtime Model
 
-Safe OTA handling
-
-📊 Runtime Model
+```
 BOOT
   │
   ▼
@@ -150,9 +194,12 @@ RUNNING
   ├── SOS Engine (always active)
   ├── WiFi Monitor
   └── OTA Handler
+```
 
 All subsystems execute cooperatively.
 
-📜 License
+
+## 📜 License
 
 This project is for educational and demonstration purposes.
+
