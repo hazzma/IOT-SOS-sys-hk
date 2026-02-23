@@ -6,9 +6,10 @@ static unsigned long unit;
 static unsigned long lastChange = 0;
 
 static const char* pattern = "...---...";
-static int index = 0;
+static int patternIndex = 0;
 static bool ledState = false;
 static bool printingDone = false;
+static bool waitingGap = false;
 
 static unsigned long getDuration(char symbol) {
     if (symbol == '.') return unit;
@@ -26,29 +27,31 @@ void sos_init(uint8_t pin, unsigned long unitTime) {
 void sos_update() {
     unsigned long now = millis();
 
-    if (!printingDone && index == 0) {
+    if (!printingDone && patternIndex == 0) {
         Serial.println("SOS");
         printingDone = true;
     }
 
-    if (now - lastChange >= getDuration(pattern[index])) {
+    if (now - lastChange >= getDuration(pattern[patternIndex])) {
 
         lastChange = now;
 
         if (ledState) {
             digitalWrite(ledPin, LOW);
             ledState = false;
-            index++;
 
-            if (pattern[index] == '\0') {
-                index = 0;
-                printingDone = false;
-                delay(7 * unit);  // Cycle gap
-            } else {
-                delay(unit); // Symbol gap
+            waitingGap = true;
+        } else {
+            if (waitingGap) {
+                waitingGap = false;
+                patternIndex++;
+
+                if (pattern[patternIndex] == '\0') {
+                    patternIndex = 0;
+                    printingDone = false;
+                }
             }
 
-        } else {
             digitalWrite(ledPin, HIGH);
             ledState = true;
         }
